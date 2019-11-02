@@ -1974,7 +1974,10 @@ abort:
    _color_black_bg(); _color_yellow_fg();
    delay(2000);
    SERIAL_LOCAL_C.println  ("");
-   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  ItsyBitsyM4 28 SEP 2019 20:37z");
+// SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  STM32F405   Adafruit Feather STM32F405 Express  https://www.adafruit.com/product/4382 02 NOV 2019 06:20z");
+   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Adafruit STM32F405");
+   SERIAL_LOCAL_C.println  ("     https://www.adafruit.com/product/4382");
+   SERIAL_LOCAL_C.println  ("     02 NOV 2019 06:20z");
 // SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
    SERIAL_LOCAL_C.println  ("      Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments +sam +autoload +squote +fdir_planned");
