@@ -3,6 +3,15 @@
 extern void push(int n);
 extern int pop(void);
 
+#define LEDSPEED 200
+
+void wiggleLEDOnce(void) {
+    digitalWrite(13, HIGH);
+    delay(LEDSPEED);
+    digitalWrite(13, LOW);
+    delay(LEDSPEED);
+}
+
 // ( u1 u2 -- )
 void _PINWRITE(void)  {
     digitalWrite(pop(), pop());
