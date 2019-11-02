@@ -1,0 +1,288 @@
+INSTALL.txt
+
+Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-747
+
+
+
+Installation
+~~~~~~~~~~~~
+
+Quick Check: Same version?
+
+The documentation assumes you are using Release 0.2.0-alpha.3
+with a 'shred' of abn-739.  The shred changes frequently, and
+is a quick reference to the current version of the program,
+independent of other means to reference this.
+
+The signon message when the program is running does not reflect
+the current release version and is (instead) one version behind.
+
+This is a cosmetic difference, only.
+
+(Scroll way down to see a sample of the current program signon message)
+
+
+If you glance at the 'abn' number/version when the program
+finishes printing information to your terminal, you'll generally
+be up to speed in identifying which version is currently loaded
+onto the target board (give or take several commits, as the abn
+number is only updated a few times each development session).
+
+It generally changes at least once per calendar date of development.
+
+See 'Versioning' (below) for a bit more on referencing which
+version is documented here.
+
+
+
+Super Quick Install
+~~~~~~~~~~~~~~~~~~~
+
+ * Download the program
+ * Unpack it as usual
+ * Find it in Arduino IDE
+ * Select the .ino file as usual
+ * Compile for your target
+   Reference target: Adafruit ItsyBitsy M4
+ * Upload to your target
+ * Connect to your target in the Serial Monitor
+ * type 'words' or 'wlist' (wlist is less encompassing but less cryptic)
+
+ * if pressing ENTER does not give desired result, try pressing Control J instead.
+
+
+
+Really Quick Install
+~~~~~~~~~~~~~~~~~~~~
+
+ * Unpack the .ZIP or tarball where you want it
+ * Install/update required libraries from inside the Arduino IDE
+ * Compile in the Arduino IDE
+ * Upload the compiled file to the target
+   (ItsyBitsyM4 is the reference target)
+ * Connect to the target (via the USB connector on the target)
+   in the Serial Monitor
+
+   See: Cortex-Forth/doc/program_init.log  for sample output
+
+ * type 'words' or 'wlist' and press ENTER or Control J
+
+
+
+Communications
+~~~~~~~~~~~~~~
+
+The reference implementation uses communications via the
+'microcom' program.  Serial Monitor seems to work acceptably
+well, for quick testing (this has been verified).
+
+Usual invocation is:
+
+ mc $ microcom -p /dev/ttyACM0
+
+A lot of information is produced by the running program, and
+printed to your terminal, when the program starts.
+
+xterm is assumed; most text-based communications/shell windows
+can be expected to function, though this is unproven and untested.
+
+Most serial communications programs should produce at least
+a minimally useful environment.  Examples of such programs
+are screen, seyon, minicom, and gtkterm.
+
+Only minicom and microcom are used to test, and usually only
+microcom is used.
+
+The Serial Monitor should work, but it isn't supported, as it
+uses a line-by line input, rather than character by character
+as you type.
+
+Serial communications are established from inside
+flash_setup() found in ./src/flash_ops.cpp:
+
+ $ cat -n src/flash_ops.cpp | egrep 38400
+   110    Serial.begin(38400);
+ $
+
+Screen is another option to talk to the target board.
+
+Screen may be invoked with:
+
+ $ screen  /dev/ttyACM0 38400
+
+Control A, followed by a backslash, should prompt to exit 'screen'.
+
+See also:
+
+ [ https://learn.adafruit.com/micropython-basics-how-to-load-micropython-on-a-board/serial-terminal ]
+
+
+
+Almost Really Quick Install
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ Change directory to
+
+ Cortex-Forth-0.2.0-alpha.3/Cortex-Forth
+
+ Do a directory listing to locate yourself.
+
+ Mainfile is named 'Cortex-Forth.ino' and is only
+ included once.  When a simple directory listing reports
+ Cortex-Forth.ino is present, you are in the intended,
+ top level directory for program development.
+
+ Additional active files are found in the ./src tree,
+ including flash_ops.cpp and forth_words.cpp and others.
+
+ YOU NEED ADDITIONAL LIBRARIES.
+
+ SdFat_-_Adafruit_Fork
+ Adafruit_SPIFlash
+
+ Also used (ItsyBitsyM4 in particular uses this):
+
+ Adafruit_DotStar
+
+ To operate the onboard dotstar RGB LED.
+
+ The Arduino IDE was used to install all three of these
+ libraries, for the reference implementation.  All are
+ current published versions.
+
+ dog.cpp is a junk file meant to collect relevant comments
+ at the very top of that file (to help differentiate between
+ tiny similar revisons to the program).  It may be ignored,
+ for practical work on the program.
+
+
+
+Quick Install
+~~~~~~~~~~~~~
+
+ $ zcat ../Cortex-Forth-0.2.0-alpha.3.tar.gz | tar -xvf -
+
+You should be in a unique directory before executing the
+previous command, with the necessary file written to the
+directory one level up from where 'cd' has placed you. ;)
+
+The output of 'tar' there might look something like this:
+
+Cortex-Forth-0.2.0-alpha.3/
+Cortex-Forth-0.2.0-alpha.3/.gitignore
+Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/
+Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/.gitignore
+Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/0_archived.d/
+Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/0_archived.d/.gitignore
+Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/0_archived.d/_dumpram.cpp_deprecated_
+
+ ... with many lines following the snippet just given.
+
+ $ pwd
+/somewhere/temp.d # yours will be whatever you named 'temp.d' to be)
+ $ ls
+Cortex-Forth-0.2.0-alpha.3
+ $ cd Cortex-Forth-0.2.0-alpha.3/Cortex-Forth/
+ $
+
+
+
+Versioning
+~~~~~~~~~~
+
+ $ md5sum Cortex-Forth-0.2.0-alpha.3.tar.gz
+6464943e41426f933217081fcb756fba  Cortex-Forth-0.2.0-alpha.3.tar.gz
+
+ $ md5sum Cortex-Forth-0.2.0-alpha.3.zip
+e616753b1c2fced2bc5c32648da48493  Cortex-Forth-0.2.0-alpha.3.zip
+
+The documentation assumes you are on the commit 5feb37a854b7
+version of this program:
+
+commit 5feb37a854b7f3bc4eb8e3887923beb0be0ac9ce
+Author: wa1tnr <wa1tnr@users.noreply.github.com>
+Date:   Tue Sep 10 21:43:43 2019 +0000
+
+    Release: 0.2.0-alpha.3 non-usart--testing-a  shred: abn-739
+    
+    Tue Sep 10 20:59:28 UTC 2019
+    
+    On branch non-usart--testing-a
+    
+    Tue Sep 10 20:59:28 UTC 2019 0.2.0-alpha.2 non-usart--testing-a  shred: abn-739
+    
+    commit 203a71b4a8b8cfa914d9b68255ce364b9fb193e2
+    Author: wa1tnr
+    Date:   Tue Sep 10 21:10:57 2019 +0000
+    
+        version bump - printing
+    
+     myForth Arm Cortex   de wa1tnr  ItsyBitsyM4 10 SEP 2019 20:59z
+          Tue Sep 10 20:59:28 UTC 2019 0.2.0-alpha.2 non-usart--testing-a
+          +0.2.0-a.2  +comments +sam +autoload +squote +fdir_planned
+          +0.2.0-a.2  ++rlist +cc +blist +mkdir +write_File
+          +0.2.0-a.2  +fload                               shred: abn-739
+          words: sam fload wlist warm - do NOT use fload without disabling autoload
+          TEF MEK Hn-t
+    
+    This release is interim.  Has further factoring of the Forth sources.
+    
+    Support for \ comments is now available.  Better support
+    for ubiquitous line endings (use 0x0d 0x0a to end all
+    source code lines).
+    
+            modified:   READY.FOR.RELEASE
+    
+    On branch develop
+
+These obtain:
+
+203a71b4a8b8cfa914d (last pratical commit prior to the above
+mentioned commit)
+
+Tarball:
+  [ https://github.com/wa1tnr/Cortex-Forth/archive/0.2.0-alpha.3.tar.gz ]
+
+ZIP file:
+  [ https://github.com/wa1tnr/Cortex-Forth/archive/0.2.0-alpha.3.zip ]
+
+Either will do, or you can clone the repository using 'git clone'.
+
+View the files as they were when this documentation most fully
+obtains:
+
+  [ https://github.com/wa1tnr/Cortex-Forth/commit/5feb37a854b7f3bc4eb8e3887923beb0be0ac9ce ]
+
+View all releases:
+
+  [ https://github.com/wa1tnr/Cortex-Forth/releases ]
+
+Release that obtains most directly to the current version
+of this documentation:
+
+    0.2.0-alpha.3
+
+Look for:
+    Create release tag 0.2.0-alpha.3
+
+
+
+Program Signon
+~~~~~~~~~~~~~~
+
+ myForth Arm Cortex   de wa1tnr  ItsyBitsyM4 10 SEP 2019 20:59z
+      Tue Sep 10 20:59:28 UTC 2019 0.2.0-alpha.2 non-usart--testing-a
+      +0.2.0-a.2  +comments +sam +autoload +squote +fdir_planned
+      +0.2.0-a.2  ++rlist +cc +blist +mkdir +write_File
+      +0.2.0-a.2  +fload                               shred: abn-739
+      words: sam fload wlist warm - do NOT use fload without disabling autoload
+      TEF MEK Hn-t
+
+Although it says 'alpha.2' it is already 'alpha.3' there.
+The abn-739 numbering is accurate.
+
+'TEF MEK Hn-t' generally tracks with the abn number (if one
+is incremented, so is the other).
+
+The above is the exact signon message as the program version
+that is documented here.
