@@ -1,4 +1,4 @@
-// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-747
+// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
 // 02 Nov STM32F405x
 
 /*
@@ -123,6 +123,8 @@ extern void _FL_SETUP(void);
 #define LINE_ENDING 10
 #define ALT_LINE_ENDING 13
 
+extern void wiggleLEDOnce(void);
+
 #ifdef HAS_DOTSTAR_LIB
 extern void setup_dotstar(void); // dotstar.cpp
 extern void set_dotStarColors(void);
@@ -195,6 +197,10 @@ void _FLOAD (void) { // file load: fload
      I = 190; //  simulate 'quit'  - does not clear the stack. I = 83 (abort) does.
 }
 
+void _WAGDTH (void) { // _WAGDS();
+  wiggleLEDOnce();
+}
+
 void _WAGDS (void) { // 'wag' the dotStar colored lED - ItsyBitsy M4, others
 #ifdef HAS_DOTSTAR_LIB
   wiggleDotStarOnce();
@@ -203,7 +209,7 @@ void _WAGDS (void) { // 'wag' the dotStar colored lED - ItsyBitsy M4, others
 
 void _WIGGLE (void) { // toggle dotStar a number of times
   for (int i = T; i > 0; i--) {
-    _WAGDS();
+    _WAGDTH(); // _WAGDS();
   }
   _DROP ();
 }
@@ -1278,6 +1284,12 @@ void _color_black_bg (void) {
 
 
 void setup () {
+  pinMode(13, 1);
+  wiggleLEDOnce();
+  delay(200);
+  wiggleLEDOnce();
+  delay(200);
+
 #ifdef HAS_DOTSTAR_LIB
   setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
   // set_dotStarColors(); // give them some color
@@ -1808,7 +1820,7 @@ abort:
 // wag (  - )
   NAME(468, 0, 3, 'w', 'a', 'g')
   LINK(469, 465)
-  CODE(470, _WAGDS)
+  CODE(470, _WAGDTH) // CODE(470, _WAGDS)
 
 // wiggle ( n  - )
   NAME(471, 0, 6, 'w', 'i', 'g')
@@ -1977,14 +1989,26 @@ abort:
 // SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  STM32F405   Adafruit Feather STM32F405 Express  https://www.adafruit.com/product/4382 02 NOV 2019 06:20z");
    SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Adafruit STM32F405");
    SERIAL_LOCAL_C.println  ("     https://www.adafruit.com/product/4382");
-   SERIAL_LOCAL_C.println  ("     02 NOV 2019 06:20z");
+
+
+                               // Sat Nov  2 07:34:23 UTC 2019
+   SERIAL_LOCAL_C.println  ("     02 NOV 2019 06:20z\r\n");
 // SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
-   SERIAL_LOCAL_C.println  ("      Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
+
+   SERIAL_LOCAL_C.println  ("      OLD timestamp was: \r\n  Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
+
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments +sam +autoload +squote +fdir_planned");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir +write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +fload                               shred: abn-747");
-   SERIAL_LOCAL_C.println  ("      words: sam fload wlist warm - do NOT use fload without disabling autoload");
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hn-z");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +fload                               shred: abn-797");
+   SERIAL_LOCAL_C.println  ("      words: wlist warm   use SPACE BAR often.");
+
+   SERIAL_LOCAL_C.println  ("\r\n SPECIAL NOTE 02 NOV 2019: no comments updated --");
+   SERIAL_LOCAL_C.println  ("\r\n   Several capabilities not yet ported to STM32F4xx target.");
+   SERIAL_LOCAL_C.println  ("\r\n       Please use spacebar flogging rather than pressing ENTER,");
+   SERIAL_LOCAL_C.println  ("       at least in certain situations where you want to see the");
+   SERIAL_LOCAL_C.println  ("       results printed to the console.");
+
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-a");
    _OK();
 }
 
