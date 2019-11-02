@@ -100,7 +100,7 @@ extern void _FL_SETUP(void);
   This code is in the public domain.
 
 */
-#include <SdFat.h> // 'File'
+// #include <SdFat.h> // 'File'
 
 // 0x1200 == 4608 decimal
 

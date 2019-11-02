@@ -2,6 +2,7 @@
 // Tue Sep  3 08:25:26 UTC 2019
 
 // Wed Aug 21 02:15:00 UTC 2019 0.1.8 good-compiler-aa-bb  shred: abn-515
+#include <Arduino.h>
 
 /*
   SD card read/write
@@ -26,10 +27,10 @@
 // #include "SdFat.h"
 // #include "Adafruit_SPIFlash.h"
 
-extern void _FLOAD(void);
+// extern void _FLOAD(void);
 extern void _SPACE(void);
 extern void forth_words(void);
-extern void sam_editor(void);
+// extern void sam_editor(void);
 
 
 #undef WANT_MKDIR_FORTH
@@ -59,14 +60,18 @@ Adafruit_SPIFlash flash(&flashTransport);
 #endif // #ifdef NOT_DEFINED_STM32F405
 
 // file system object from SdFat
-FatFileSystem fatfs;
+// FatFileSystem fatfs;
 
-File myFile;
+// File myFile;
 
 void _OK_OOB(void) { // OK, out of band
   SERIAL_LOCAL_C.println (" Ok");
 }
 
+
+
+
+#ifdef NOT_DEFINED_STM32F405
 void mkdir_forth(void) {
   if (!fatfs.exists(WORKING_DIR)) {
     Serial.print(WORKING_DIR);
@@ -95,6 +100,7 @@ void mkdir_forth(void) {
 #endif // #ifdef VERBIAGE_AA
   }
 }
+#endif // #ifdef NOT_DEFINED_STM32F405
 
 // modeled on:
 
@@ -266,6 +272,7 @@ void _FILE_WRITE(void) {
 
 
 
+#ifdef NOT_DEFINED_STM32F405
 void _FILE_PRINT(void) { // re-open the file for reading: 
   myFile = fatfs.open(FILE_NAME); // thisFile = (File) myFile; // local tnr kludge 
   if (myFile) {
@@ -296,6 +303,7 @@ void _FILE_PRINT(void) { // re-open the file for reading:
     Serial.print("error opening "); Serial.println(FILE_NAME);
  }
 }
+#endif // #ifdef NOT_DEFINED_STM32F405
 
 
 #ifdef NOT_DEFINED_STM32F405
