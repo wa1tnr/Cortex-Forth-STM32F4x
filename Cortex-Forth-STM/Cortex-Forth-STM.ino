@@ -1,38 +1,28 @@
+// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
+// some/path/Cortex-Forth-STM32F4x
+// 02 Nov STM32F405x
+// Sun Nov  3 20:03:26 UTC 2019   spiflash-ab-  901a
+
+// old stamp was:
 // Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-799
 
 /*
-Thu Sep 12 13:38:36 UTC 2019
-On branch non-usart--flash_bug-aa-
-parent branch was: non-usart--testing-b
-
-last version:
-Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b  shred: abn-743
-
-*/
-
-/*
-commit 410de2749f5f0d9f01d77f49329fd0b259440cf2
+commit b9c1febd6b024c55f384824997765cefcef516da
 Author: wa1tnr
-Date:   Wed Sep 11 23:57:32 2019 +0000
+Date:   Sun Nov 3 16:46:36 2019 +0000
 
-    document stack effect diagrams and such
+    neopixel stuff
+    
+            new file:   neo_pixel.cpp
+            new file:   neo_pixel.h
+    
+    On branch spiflash-ab-
 
 */
 
 /*
-commit 5feb37a854b7f3bc4eb8e3887923beb0be0ac9ce
-Author: wa1tnr <wa1tnr@users.noreply.github.com>
-Date:   Tue Sep 10 21:43:43 2019 +0000
-
-    Release: 0.2.0-alpha.3 non-usart--testing-a  shred: abn-739
+    former Release: 0.2.0-alpha.3 non-usart--testing-a  shred: abn-739
 */
-
-// Edits: the parser seems to tolerate good line endings and code formatting,
-// for the limited case of short lines using WRITELN_FORTH() macro as the
-// preferred use (rather than the WRITE_FORTH() macro, which was formerly
-// preferred as it avoided a bug in the parser).
-
-// Edits: the parser seems to tolerate leading spaces in more situations, than in recent work.
 
 // parser debugging flags:
 #define DEBUG_FLP_TIB
@@ -1990,14 +1980,14 @@ abort:
    _color_black_bg(); _color_yellow_fg();
    delay(2000);
    SERIAL_LOCAL_C.println  ("");
-   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  ItsyBitsyM4 28 SEP 2019 20:37z");
+   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Feather_F405 03 NOV SEP 2019 20:03z");
 // SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
-   SERIAL_LOCAL_C.println  ("      Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments +sam +autoload +squote +fdir_planned");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir +write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +fload                               shred: abn-799");
-   SERIAL_LOCAL_C.println  ("      words: sam fload wlist warm - do NOT use fload without disabling autoload");
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hn-z");
+   SERIAL_LOCAL_C.println  ("      Sun Nov  3 20:03:26 UTC 2019 uknwn spiflash-ab-");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments --sam +autoload +squote +fdir_planned");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir --write_File");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901a");
+   SERIAL_LOCAL_C.println  ("      words:  wlist warm   no file handling - SPI flash not available");
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-c");
    _OK();
 }
 
