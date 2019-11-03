@@ -1,15 +1,19 @@
-Sun Nov  3 20:14:08 UTC 2019   unknown_tag   spiflash-ab-  901a
+Sun Nov  3 22:41:42 UTC 2019   unknown_tag   spiflash-ab-  901f
 
-commit 4dbfca23f5dcce540a6c62e7b0133c2329d128fd
-Merge: 2ab227e de51a1d
+  develop
+  spiflash-ab-
+
+0.1.0
+0.1.8
+0.1.9
+0.2.0-alpha.3
+proposed: 0.2.0-alpha.4
+
+commit fadf9fe23dad25f8cabe3b056ca3e3c331491ac7
 Author: wa1tnr
-Date:   Sun Nov 3 22:18:22 2019 +0000
+Date:   Sun Nov 3 22:41:03 2019 +0000
 
-    Merge branch 'spiflash-ab-' of https://github.com/wa1tnr/Cortex-Forth-STM32F4x into spiflash-ab-
-    unknown merge reason haha
+    Pre-release
+            modified:   Cortex-Forth-STM.ino
+    On branch develop
 
-    READY for release - first commit in develop branch
-
-On branch develop
-
-TAGS: unknown at this time.  See results. ;)
