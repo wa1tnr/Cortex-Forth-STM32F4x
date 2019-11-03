@@ -1,10 +1,10 @@
-// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
-// some/path/Cortex-Forth-STM32F4x
-// 02 Nov STM32F405x
-// Sun Nov  3 20:03:26 UTC 2019   spiflash-ab-  901a
+// Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-  shred: abn-901e
+// On branch develop
+// 0.1.8
+// 0.1.9
+// 0.2.0-alpha.3
 
-// old stamp was:
-// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-799
+// some/path/Cortex-Forth-STM32F4x
 
 /*
 commit b9c1febd6b024c55f384824997765cefcef516da
@@ -1980,14 +1980,13 @@ abort:
    _color_black_bg(); _color_yellow_fg();
    delay(2000);
    SERIAL_LOCAL_C.println  ("");
-   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Feather_F405 03 NOV SEP 2019 20:03z");
-// SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
-   SERIAL_LOCAL_C.println  ("      Sun Nov  3 20:03:26 UTC 2019 uknwn spiflash-ab-");
+   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Feather_F405 03 NOV SEP 2019 22:23z");
+   SERIAL_LOCAL_C.println  ("      Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments --sam +autoload +squote +fdir_planned");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir --write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901a");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901e");
    SERIAL_LOCAL_C.println  ("      words:  wlist warm   no file handling - SPI flash not available");
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-c");
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-e");
    _OK();
 }
 
