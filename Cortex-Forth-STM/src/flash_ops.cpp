@@ -29,6 +29,12 @@
 #include "SdFat.h"
 #include "Adafruit_SPIFlash.h"
 
+extern void _illuminate(void);
+extern void glow_Blue4(void);
+extern void push_tuple(void);
+
+extern void blip_LED(void);
+
 extern void _FLOAD(void);
 extern void _SPACE(void);
 extern void forth_words(void);
@@ -126,9 +132,10 @@ void setup_blink_gpio(void) {
 
 void blink_awaiting_serial(void) {
   push(1); push(13); _PINWRITE(); // turn on LED D13
-  delay(2); // rest
+  // delay(2); // rest
+  delay(1); // rest
   push(0); push(13); _PINWRITE(); // turn off LED D13
-  delay(3000);
+  delay(3400);
 }
 
 void serial_setup(void) {
@@ -139,7 +146,12 @@ void serial_setup(void) {
     delay(1); // wait for serial port to connect. Needed for native USB port only
     blink_awaiting_serial();
   }
-  Serial.println("Connection to serial port established!");
+  Serial.println("Connection to serial port established in serial_setup(); from flash_ops.cpp");
+  glow_Blue4();
+  push_tuple();
+  _illuminate();
+  delay(2000);
+  // glow_Dark(); // turn off RGB
 }
 
 void _LOAD_FILE(void) {
