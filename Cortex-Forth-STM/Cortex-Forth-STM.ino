@@ -1,6 +1,8 @@
-// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
+// Sun Nov  3 07:11:30 UTC 2019
+// Sat Nov  2 10:35:48 UTC 2019
 // 02 Nov STM32F405x
 
+// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
 /*
 Thu Sep 12 13:38:36 UTC 2019
 On branch non-usart--flash_bug-aa-
@@ -1991,7 +1993,7 @@ abort:
    SERIAL_LOCAL_C.println  ("     https://www.adafruit.com/product/4382");
 
 
-                               // Sat Nov  2 07:34:23 UTC 2019
+                               // Sat Nov  2 10:35:48 UTC 2019
    SERIAL_LOCAL_C.println  ("     02 NOV 2019 06:20z\r\n");
 // SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
 
@@ -2008,7 +2010,10 @@ abort:
    SERIAL_LOCAL_C.println  ("       at least in certain situations where you want to see the");
    SERIAL_LOCAL_C.println  ("       results printed to the console.");
 
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-a");
+
+   SERIAL_LOCAL_C.println  ("       Sat Nov  2 10:35:48 UTC 2019 ");
+
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-b");
    _OK();
 }
 
