@@ -13,8 +13,8 @@
 #define FBUFF_PRN // echo + char during file read+print op
 #undef FBUFF_PRN
 
-// #include "SdFat.h"
-// extern File thisFile;
+#include "SdFat.h"
+extern File thisFile;
 #define WRITE_FORTH(a) {thisFile.print((a));}
 #define WRITELN_FORTH(a) {thisFile.println((a));}
 

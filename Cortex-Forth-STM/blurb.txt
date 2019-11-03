@@ -1,0 +1,9 @@
+
+SPI flashROM not yet supported.  Unsure what is going on.
+The vocabulary related to file loading is now reinstated.
+
+Program is mismatched here and there from other development
+efforts (the experiment got too big).  Could use a comparison
+across branches.
+
+03 Nov Sunday 16:34 UTC
