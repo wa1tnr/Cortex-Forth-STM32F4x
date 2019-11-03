@@ -125,6 +125,7 @@ extern void _FL_SETUP(void);
 // unprotected by an ifdef / TODO_:
 extern void setup_neoPixel(void);
 extern void wiggleLEDOnce(void);
+extern void blip_LED(void);
 
 #ifdef HAS_DOTSTAR_LIB
 extern void setup_dotstar(void); // dotstar.cpp
@@ -199,7 +200,8 @@ void _FLOAD (void) { // file load: fload
 }
 
 void _WAGDTH (void) { // _WAGDS();
-    wiggleLEDOnce();
+    // wiggleLEDOnce();
+    blip_LED(); delay(150);
 }
 
 void _WAGDS (void) { // 'wag' the dotStar colored lED - ItsyBitsy M4, others
@@ -1280,7 +1282,19 @@ void _color_black_bg (void) {
 }
 
 
-void setup () {
+// - - - - - - - - - - - -   setup()   - - - - - - - - - -
+
+void wig_led(void) {
+    wiggleLEDOnce();
+    delay(200);
+}
+
+void setup (void) {
+    pinMode(13, 1);
+    for (int i=2; i>0; i--) {
+        wig_led();
+    }
+
 #ifdef HAS_DOTSTAR_LIB
   setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
   // set_dotStarColors(); // give them some color
@@ -1810,7 +1824,8 @@ abort:
 // wag (  - )
   NAME(468, 0, 3, 'w', 'a', 'g')
   LINK(469, 465)
-  CODE(470, _WAGDS)
+  // CODE(470, _WAGDS)
+  CODE(470, _WAGDTH)
 
 // wiggle ( n  - )
   NAME(471, 0, 6, 'w', 'i', 'g')
