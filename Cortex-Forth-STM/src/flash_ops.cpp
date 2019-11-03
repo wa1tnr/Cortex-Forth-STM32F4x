@@ -1,8 +1,10 @@
 // flash_ops.cpp  wa1tnr
+// Sun Nov  3 07:36:22 UTC 2019
+// Okay, made a mistake - flash support seems to compile.
+
 // Tue Sep  3 08:25:26 UTC 2019
 
 // Wed Aug 21 02:15:00 UTC 2019 0.1.8 good-compiler-aa-bb  shred: abn-515
-#include <Arduino.h>
 
 /*
   SD card read/write
@@ -23,55 +25,48 @@
 
  */
 
-// #include <SPI.h>
-// #include "SdFat.h"
-// #include "Adafruit_SPIFlash.h"
+#include <SPI.h>
+#include "SdFat.h"
+#include "Adafruit_SPIFlash.h"
 
-// extern void _FLOAD(void);
+extern void _FLOAD(void);
 extern void _SPACE(void);
 extern void forth_words(void);
-// extern void sam_editor(void);
+extern void sam_editor(void);
 
 
 #undef WANT_MKDIR_FORTH
 #define WANT_MKDIR_FORTH
 
-// File thisFile;
+File thisFile;
 #include "../common.h"
 // #define WORKING_DIR "/forth"
 // #define VERBIAGE_AA #undef VERBIAGE_AA
 
 #if defined(__SAMD51__) || defined(NRF52840_XXAA)
-#ifdef NOT_DEFINED_STM32F405
-  Adafruit_FlashTransport_QSPI flashTransport(PIN_QSPI_SCK, PIN_QSPI_CS, PIN_QSPI_IO0, PIN_QSPI_IO1, PIN_QSPI_IO2, PIN_QSPI_IO3);
-#endif // #ifdef NOT_DEFINED_STM32F405
+  // Adafruit_FlashTransport_QSPI flashTransport(PIN_QSPI_SCK, PIN_QSPI_CS, PIN_QSPI_IO0, PIN_QSPI_IO1, PIN_QSPI_IO2, PIN_QSPI_IO3);
 #else
   #if (SPI_INTERFACES_COUNT == 1)
-    Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
+    // Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
   #else
-#ifdef NOT_DEFINED_STM32F405
-    Adafruit_FlashTransport_SPI flashTransport(SS1, &SPI1);
-#endif // #ifdef NOT_DEFINED_STM32F405
+    // Adafruit_FlashTransport_SPI flashTransport(SS1, &SPI1);
   #endif
 #endif
 
-#ifdef NOT_DEFINED_STM32F405
+// 03 Nov - just this line from the above cpp chooser logic, manually included right here:
+// seems possible that flash is already supported.
+Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
 Adafruit_SPIFlash flash(&flashTransport);
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 // file system object from SdFat
-// FatFileSystem fatfs;
+FatFileSystem fatfs;
 
-// File myFile;
+File myFile;
 
 void _OK_OOB(void) { // OK, out of band
   SERIAL_LOCAL_C.println (" Ok");
 }
 
-
-
-
-#ifdef NOT_DEFINED_STM32F405
 void mkdir_forth(void) {
   if (!fatfs.exists(WORKING_DIR)) {
     Serial.print(WORKING_DIR);
@@ -100,7 +95,6 @@ void mkdir_forth(void) {
 #endif // #ifdef VERBIAGE_AA
   }
 }
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 // modeled on:
 
@@ -136,13 +130,6 @@ void blink_awaiting_serial(void) {
   push(0); push(13); _PINWRITE(); // turn off LED D13
   delay(3000);
 }
-
-
-
-
-
-
-
 
 void serial_setup(void) {
   // Open serial communications and wait for port to open:
@@ -181,14 +168,10 @@ void _FL_SETUP(void) { // now an official Forth word
 #endif // #ifdef VERBIAGE_AA
   
   // Init external flash
-#ifdef NOT_DEFINED_STM32F405
   flash.begin();
-#endif // #ifdef NOT_DEFINED_STM32F405
 
   // Init file system on the flash
-#ifdef NOT_DEFINED_STM32F405
   fatfs.begin(&flash);
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 #ifdef VERBIAGE_AA
   Serial.println("initialization done.");
@@ -214,16 +197,12 @@ void _FILE_WRITE(void) {
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  // myFile = fatfs.open(FILE_NAME, FILE_WRITE);
+  myFile = fatfs.open(FILE_NAME, FILE_WRITE);
 
-  // thisFile = (File) myFile; // local tnr kludge
+  thisFile = (File) myFile; // local tnr kludge
 
   // if the file opened okay, write to it:
 // if (myFile) {
-
-
-
-#ifdef NOT_DEFINED_STM32F405
    if (thisFile) {
 #ifdef VERBIAGE_AA
     Serial.print("Writing to "); Serial.print(FILE_NAME); Serial.print(" ");
@@ -251,7 +230,6 @@ void _FILE_WRITE(void) {
     // if the file didn't open, print an error:
     Serial.print("error opening "); Serial.println(FILE_NAME);
   }
-#endif // #ifdef NOT_DEFINED_STM32F405
 }
 
 
@@ -272,7 +250,6 @@ void _FILE_WRITE(void) {
 
 
 
-#ifdef NOT_DEFINED_STM32F405
 void _FILE_PRINT(void) { // re-open the file for reading: 
   myFile = fatfs.open(FILE_NAME); // thisFile = (File) myFile; // local tnr kludge 
   if (myFile) {
@@ -303,10 +280,8 @@ void _FILE_PRINT(void) { // re-open the file for reading:
     Serial.print("error opening "); Serial.println(FILE_NAME);
  }
 }
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 
-#ifdef NOT_DEFINED_STM32F405
 void _FILE_LOAD(void) { // temporary name for this 12 SEP 20:10z
 
   File dataFile = fatfs.open(FILE_NAME, FILE_READ);
@@ -343,10 +318,8 @@ void _FILE_LOAD(void) { // temporary name for this 12 SEP 20:10z
     // _FLOAD(); //  sketchy to call this here tnr 12 SEP
   }
 }
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 
-#ifdef NOT_DEFINED_STM32F405
 void _FILE_OPS(void) {
   int fflag = pop(); // must have a directive flag pushed onto the stack
 
@@ -408,4 +381,3 @@ void _FILE_OPS(void) {
   }
 }
 
-#endif // #ifdef NOT_DEFINED_STM32F405
