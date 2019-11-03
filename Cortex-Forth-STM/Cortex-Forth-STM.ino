@@ -1,8 +1,5 @@
-// Sun Nov  3 07:11:30 UTC 2019
-// Sat Nov  2 10:35:48 UTC 2019
-// 02 Nov STM32F405x
+// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-799
 
-// Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
 /*
 Thu Sep 12 13:38:36 UTC 2019
 On branch non-usart--flash_bug-aa-
@@ -102,7 +99,7 @@ extern void _FL_SETUP(void);
   This code is in the public domain.
 
 */
-// #include <SdFat.h> // 'File'
+#include <SdFat.h> // 'File'
 
 // 0x1200 == 4608 decimal
 
@@ -125,6 +122,8 @@ extern void _FL_SETUP(void);
 #define LINE_ENDING 10
 #define ALT_LINE_ENDING 13
 
+// unprotected by an ifdef / TODO_:
+extern void setup_neoPixel(void);
 extern void wiggleLEDOnce(void);
 
 #ifdef HAS_DOTSTAR_LIB
@@ -139,12 +138,12 @@ extern void wiggleDotStarOnce(void); // toggle once
 extern void serial_setup(void); // flash_ops.cpp
 // see near LINE 83, above // extern void flash_setup(void); // flash_ops.cpp
 
-// extern File thisFile; // You must include SdFat.h to use 'File' here
+extern File thisFile; // You must include SdFat.h to use 'File' here
 
 // global variables
 union Memory {
   int data [RAM_SIZE];
-  void (*program [0]) (void); // void (*program []) (void);
+  void (*program [0]) (void);
 } memory;
 
 int PKF = 0; // Peek Flag set to false initially
@@ -195,17 +194,17 @@ void _NOP (void) {
 }
 
 void _FLOAD (void) { // file load: fload
-  SERIAL_LOCAL_C.println(" not loading a forth program from flashROM .. no support STM32F4x");
+  SERIAL_LOCAL_C.println(" loading a forth program from flashROM ..");
      I = 190; //  simulate 'quit'  - does not clear the stack. I = 83 (abort) does.
 }
 
 void _WAGDTH (void) { // _WAGDS();
-  wiggleLEDOnce();
+    wiggleLEDOnce();
 }
 
 void _WAGDS (void) { // 'wag' the dotStar colored lED - ItsyBitsy M4, others
 #ifdef HAS_DOTSTAR_LIB
-  wiggleDotStarOnce();
+    wiggleDotStarOnce();
 #endif // #ifdef HAS_DOTSTAR_LIB
 }
 
@@ -262,7 +261,7 @@ void _OK (void) {
 }
 
 void _WLIST (void) {
-  SERIAL_LOCAL_C.print ("wiggle wag fload wlist warm type c! c@ literal repeat while again ' forget else then if until begin loop do i ; : ] [ R constant ? variable allot here create dump 2/ 2* negate abs invert xor or and - + h. space words .s . quit 0< depth number ?dup execute find , ! @ over swap drop dup word parse cr emit key exit ");
+  SERIAL_LOCAL_C.print ("wiggle wag fload wlist warm type c! c@ literal repeat while again ' forget else then if until begin loop do i ; : ] [ R constant ? variable allot here create dump 2/ 2* negate abs invert xor or and - + h. space words .s . flparse quit 0< depth number ?dup execute find , ! @ over swap drop dup word parse cr emit key exit ");
 }
 
 void _WARM (void) {
@@ -519,7 +518,6 @@ void _PARSE (void) {
 
 char ti;
 
-#ifdef NOT_DEFINED_STM32F405
 void screen_for_comments(void) {
   if (thisFile.available() > 0) {
     ti = thisFile.read();
@@ -539,10 +537,8 @@ void screen_for_comments(void) {
 
   }
 }
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 #define FLEN_MAX 1
-#ifdef NOT_DEFINED_STM32F405
 void _FLPARSE (void) {
   char t;
   tib = "";
@@ -812,7 +808,6 @@ void _FLPARSE (void) {
     // Serial.println("\r\nDEBUG 08 SEP: LINE 511 seen.\r\n");
   }
 }
-#endif // #ifdef NOT_DEFINED_STM32F405
 
 void _SFPARSE (void) { // safe parse
   char t;
@@ -1049,8 +1044,8 @@ void _ALLOT (void) {
 void _HEAD (void) {
   if ( keyboard_not_file ) {
     _PARSE ();
-  // } else {
-  //  _FLPARSE ();
+  } else {
+    _FLPARSE ();
   }
 //  _PARSE ();
   _WORD ();
@@ -1286,12 +1281,6 @@ void _color_black_bg (void) {
 
 
 void setup () {
-  pinMode(13, 1);
-  wiggleLEDOnce();
-  delay(200);
-  wiggleLEDOnce();
-  delay(200);
-
 #ifdef HAS_DOTSTAR_LIB
   setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
   // set_dotStarColors(); // give them some color
@@ -1488,14 +1477,14 @@ abort:
   // - - - - -   large  gap  here   - - - - -
 
   // flparse // leaves string in tib
-//  NAME(135, 0, 7, 'f', 'l', 'p')
-//  LINK(136, 86)
-//  CODE(137, _FLPARSE)
-//#  define flparse 137
+  NAME(135, 0, 7, 'f', 'l', 'p')
+  LINK(136, 86)
+  CODE(137, _FLPARSE)
+#  define flparse 137
 
   // sfparse // leaves string in tib
   NAME(138, 0, 7, 's', 'f', 'p')
-  LINK(139, 86) // LINK(139, 135)
+  LINK(139, 135)
   CODE(140, _SFPARSE)
 #  define sfparse 140
 
@@ -1515,8 +1504,7 @@ abort:
   CODE(188, _NEST)
   DATA(189, initr)
   // begin quit loop
-// TERRIBLE KLUDGE no study made 02 Nov 2019 - was flparse:
-  DATA(190, parse) // DATA(190, flparse) // latest change
+  DATA(190, flparse) // latest change
   DATA(191, wword) // gets string from tib
   DATA(192, find)
   DATA(193, qdup)
@@ -1822,7 +1810,7 @@ abort:
 // wag (  - )
   NAME(468, 0, 3, 'w', 'a', 'g')
   LINK(469, 465)
-  CODE(470, _WAGDTH) // CODE(470, _WAGDS)
+  CODE(470, _WAGDS)
 
 // wiggle ( n  - )
   NAME(471, 0, 6, 'w', 'i', 'g')
@@ -1889,7 +1877,6 @@ abort:
   LINK(503, 499)
   CODE(504, _PINWRITE)
 
-#ifdef NOT_DEFINED_STM32F405
   NAME(505, 0, 6, 'f', 'l', 'i') // 'flinit' flash initialization word
   LINK(506, 502)
   CODE(507, _FL_SETUP)
@@ -1900,10 +1887,9 @@ abort:
   NAME(508, 0, 4, 'f', 'i', 'l') // 'file' accepts: read write remove print load (none of these exist yet)
   LINK(509, 505)
   CODE(510, _FILE_OPS)
-#endif // #ifdef NOT_DEFINED_STM32F405
 
   NAME(511, 0, 5, 'w', 'r', 'i') // 'write' talks to 'file'
-  LINK(512, 502) // LINK(512, 508) // standard increment +3
+  LINK(512, 508) // standard increment +3
   CODE(513, _WRITE_FILE)
 
   NAME(514, 0, 6, 'r', 'e', 'm') // 'remove' talks to 'file'
@@ -1959,6 +1945,7 @@ abort:
 
   //  I = 600; // test
 
+  setup_neoPixel();
   serial_setup(); // flash_ops.cpp // TODO: split out from flash ops 12 SEP 2019
 
 #ifdef NOVEL_CODE_AA // expire this in 7 days when used to the new workflow
@@ -1988,32 +1975,14 @@ abort:
    _color_black_bg(); _color_yellow_fg();
    delay(2000);
    SERIAL_LOCAL_C.println  ("");
-// SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  STM32F405   Adafruit Feather STM32F405 Express  https://www.adafruit.com/product/4382 02 NOV 2019 06:20z");
-   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Adafruit STM32F405");
-   SERIAL_LOCAL_C.println  ("     https://www.adafruit.com/product/4382");
-
-
-                               // Sat Nov  2 10:35:48 UTC 2019
-   SERIAL_LOCAL_C.println  ("     02 NOV 2019 06:20z\r\n");
+   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  ItsyBitsyM4 28 SEP 2019 20:37z");
 // SERIAL_LOCAL_C.println  ("      Thu Sep 12 00:39:47 UTC 2019 0.2.0-alpha.3 non-usart--testing-b");
-
-   SERIAL_LOCAL_C.println  ("      OLD timestamp was: \r\n  Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
-
+   SERIAL_LOCAL_C.println  ("      Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments +sam +autoload +squote +fdir_planned");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir +write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +fload                               shred: abn-797");
-   SERIAL_LOCAL_C.println  ("      words: wlist warm   use SPACE BAR often.");
-
-   SERIAL_LOCAL_C.println  ("\r\n SPECIAL NOTE 02 NOV 2019: no comments updated --");
-   SERIAL_LOCAL_C.println  ("\r\n   Several capabilities not yet ported to STM32F4xx target.");
-   SERIAL_LOCAL_C.println  ("\r\n       Please use spacebar flogging rather than pressing ENTER,");
-   SERIAL_LOCAL_C.println  ("       at least in certain situations where you want to see the");
-   SERIAL_LOCAL_C.println  ("       results printed to the console.");
-
-
-   SERIAL_LOCAL_C.println  ("       Sat Nov  2 10:35:48 UTC 2019 ");
-
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-b");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +fload                               shred: abn-799");
+   SERIAL_LOCAL_C.println  ("      words: sam fload wlist warm - do NOT use fload without disabling autoload");
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hn-z");
    _OK();
 }
 
