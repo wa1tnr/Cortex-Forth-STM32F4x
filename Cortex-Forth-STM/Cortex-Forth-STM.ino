@@ -1,4 +1,6 @@
 // Sat Sep 28 20:37:54 UTC 2019 0.2.0-alpha.3 non-usart--flash_bug-aa-  shred: abn-797
+// master
+// some/path/d/x/tania.d/pefivie/Cortex-Forth-STM32F4x
 // 02 Nov STM32F405x
 
 /*
