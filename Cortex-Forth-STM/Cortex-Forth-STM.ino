@@ -1,4 +1,4 @@
-// Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-  shred: abn-901e
+// Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-  shred: abn-901f
 // On branch develop
 // 0.1.8
 // 0.1.9
@@ -7,21 +7,17 @@
 // some/path/Cortex-Forth-STM32F4x
 
 /*
-commit b9c1febd6b024c55f384824997765cefcef516da
+
+commit aa1f249618e579a406cbfeb18b8f27329f45f149
 Author: wa1tnr
-Date:   Sun Nov 3 16:46:36 2019 +0000
+Date:   Sun Nov 3 22:38:35 2019 +0000
 
-    neopixel stuff
+    Current binary - suitable for upload to STM32F405
     
-            new file:   neo_pixel.cpp
-            new file:   neo_pixel.h
+            new file:   Cortex-Forth-STM.ino.bin
     
-    On branch spiflash-ab-
+    On branch develop
 
-*/
-
-/*
-    former Release: 0.2.0-alpha.3 non-usart--testing-a  shred: abn-739
 */
 
 // parser debugging flags:
@@ -1984,7 +1980,7 @@ abort:
    SERIAL_LOCAL_C.println  ("      Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments --sam +autoload +squote +fdir_planned");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir --write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901e");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901f");
    SERIAL_LOCAL_C.println  ("      words:  wlist warm   no file handling - SPI flash not available");
    SERIAL_LOCAL_C.println  ("      TEF MEK Hp-e");
    _OK();
