@@ -2004,13 +2004,14 @@ abort:
    _color_black_bg(); _color_yellow_fg();
    delay(2000);
    SERIAL_LOCAL_C.println  ("");
-   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Feather_F405 03 NOV SEP 2019 22:23z");
-   SERIAL_LOCAL_C.println  ("      Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments --sam +autoload +squote +fdir_planned");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir --write_File");
+   SERIAL_LOCAL_C.println  (" myForth Arm Cortex   de wa1tnr  Feather_F405 06 NOV 2019 22:14z");
+   SERIAL_LOCAL_C.println  ("      Wed Nov  6 22:14:31 UTC 2019  0.2.0-alpha.4  spiflash-ad-");
+                                    // Wed Nov  6 22:14:31 UTC 2019  0.2.0-alpha.4  spiflash-ad-  shred: abn-901j
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments  +sam +autoload +squote +fdir_planned");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir  +write_File");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901j");
    SERIAL_LOCAL_C.println  ("      words:  wlist warm   no file handling - SPI flash not available");
-   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-e");
+   SERIAL_LOCAL_C.println  ("      TEF MEK Hp-j");
    _OK();
 }
 
