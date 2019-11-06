@@ -49,19 +49,37 @@ File thisFile;
 // #define WORKING_DIR "/forth"
 // #define VERBIAGE_AA #undef VERBIAGE_AA
 
-#if defined(__SAMD51__) || defined(NRF52840_XXAA)
-  // Adafruit_FlashTransport_QSPI flashTransport(PIN_QSPI_SCK, PIN_QSPI_CS, PIN_QSPI_IO0, PIN_QSPI_IO1, PIN_QSPI_IO2, PIN_QSPI_IO3);
-#else
-  #if (SPI_INTERFACES_COUNT == 1)
-    // Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
+#define PIN_SPI1_SCK  2 // PB_3
+#define PIN_SPI1_MISO 3 // PB_4
+#define PIN_SPI1_MOSI 4 // PB_5
+#define PIN_SPI1_SS   7 // PA_15
+
+#if defined(ARDUINO_FEATHER_F405)
+SPIClass SPI_FLASH(PIN_SPI1_MOSI, PIN_SPI1_MISO, PIN_SPI1_SCK, PIN_SPI1_SS);
+#endif // #if defined(ARDUINO_FEATHER_F405)
+
+#define PROTECTED_AGAINST_ANY_COMPILE
+
+#ifndef PROTECTED_AGAINST_ANY_COMPILE
+  #if defined(__SAMD51__) || defined(NRF52840_XXAA)
+    // Adafruit_FlashTransport_QSPI flashTransport(PIN_QSPI_SCK, PIN_QSPI_CS, PIN_QSPI_IO0, PIN_QSPI_IO1, PIN_QSPI_IO2, PIN_QSPI_IO3);
   #else
-    // Adafruit_FlashTransport_SPI flashTransport(SS1, &SPI1);
+    #if (SPI_INTERFACES_COUNT == 1)
+      // Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
+    #else
+      // Adafruit_FlashTransport_SPI flashTransport(SS1, &SPI1);
+    #endif
   #endif
-#endif
+#endif // #ifndef PROTECTED_AGAINST_ANY_COMPILE
 
 // 03 Nov - just this line from the above cpp chooser logic, manually included right here:
 // seems possible that flash is already supported.
-Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
+// Adafruit_FlashTransport_SPI flashTransport(SS, &SPI);
+
+#if defined(ARDUINO_FEATHER_F405)
+Adafruit_FlashTransport_SPI flashTransport(PIN_SPI1_SS, &SPI_FLASH);
+#endif // #if defined(ARDUINO_FEATHER_F405)
+
 Adafruit_SPIFlash flash(&flashTransport);
 
 // file system object from SdFat
