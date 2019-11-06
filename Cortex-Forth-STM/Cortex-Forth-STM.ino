@@ -1,3 +1,10 @@
+// Wed Nov  6 22:14:31 UTC 2019  0.2.0-alpha.4  spiflash-ad-  shred: abn-901j
+// $ git branch | egrep dev
+// * develop
+// $ git checkout -b  spiflash-ad-
+// $ git branch | egrep flash
+// * spiflash-ad-
+
 // Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-  shred: abn-901f
 // On branch develop
 // 0.1.8
@@ -5,6 +12,25 @@
 // 0.2.0-alpha.3
 
 // some/path/Cortex-Forth-STM32F4x
+
+/*
+commit f522000f3de4da2e57252a22a662824d25b8be57
+Author: wa1tnr <wa1tnr@users.noreply.github.com>
+Date:   Wed Nov 6 18:49:41 2019 +0000
+
+    WORKING FLASH - write okay print okay
+
+    Did not test loading yet.
+
+            new file:   ../../.gitignore
+            new file:   ../.gitignore
+            new file:   .gitignore
+
+    (Recent new branch)
+
+    On branch spiflash-ad-
+
+*/
 
 /*
 
@@ -1950,11 +1976,13 @@ abort:
   serial_setup(); // flash_ops.cpp // TODO: split out from flash ops 12 SEP 2019
 
 #ifdef NOVEL_CODE_AA // expire this in 7 days when used to the new workflow
-  Serial.println("Novel code: flinit to manually init q/spi flashROM 12 SEP 2019");
+  Serial.println("flinit to manually init q/spi flashROM 12 SEP 2019");
   Serial.println("pnm and pnw remapped to pinmode and pinwrite .. must spell out");
-  Serial.println("\r\nflinit fload - call both in that sequence to load the sam editor");
   Serial.println("\r\n\r\nflinit    remove file    write file    print file");
   Serial.println("load file");
+  Serial.println("\r\nrecipe 06 Nov:");
+  Serial.println("\r\n    flinit load file sam - call in that sequence to load the sam editor");
+  Serial.println("\r\n    06 Nov 2019 - dfu-util working");
 #endif
 /*
   flash_setup(); // flash_ops.cpp
@@ -1980,7 +2008,7 @@ abort:
    SERIAL_LOCAL_C.println  ("      Sun Nov  3 22:23:43 UTC 2019 0.1.0 spiflash-ab-");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  +comments --sam +autoload +squote +fdir_planned");
    SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  ++rlist +cc +blist +mkdir --write_File");
-   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901f");
+   SERIAL_LOCAL_C.println  ("      +0.2.0-a.3  --fload                              shred: abn-901j");
    SERIAL_LOCAL_C.println  ("      words:  wlist warm   no file handling - SPI flash not available");
    SERIAL_LOCAL_C.println  ("      TEF MEK Hp-e");
    _OK();
