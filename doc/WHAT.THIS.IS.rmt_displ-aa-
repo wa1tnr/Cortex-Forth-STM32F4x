@@ -1,0 +1,19 @@
+Sat Nov 23 00:04:00 UTC 2019
+
+ $ git push origin spiflash-ad- 
+Everything up-to-date
+
+ $ git checkout -b rmt_displ-aa-
+Switched to a new branch 'rmt_displ-aa-'
+
+$ git branch
+  master
+* rmt_displ-aa-
+  spiflash-aa-
+  spiflash-ab-
+  spiflash-ac-
+  spiflash-ad-
+  stm32f4x-aa-a-
+ $ 
+
+END.
